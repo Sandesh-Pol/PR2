@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certificate Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { display: ['Georgia', 'serif'] } } } }</script>
+</head>
+<body class="min-h-screen bg-stone-100 text-slate-800">
+  <main class="mx-auto max-w-6xl px-5 py-8 md:px-8">
+    <header class="mb-8 flex flex-col gap-3 border-b border-stone-300 pb-6 md:flex-row md:items-end md:justify-between">
+      <div><p class="text-sm font-semibold uppercase tracking-[0.25em] text-orange-700">Certificate Studio</p><h1 class="font-display text-4xl text-slate-900">Make recognition memorable.</h1></div>
+      <p class="max-w-sm text-sm leading-6 text-slate-500">Submit a cohort once. Track every certificate from queued to ready.</p>
+    </header>
+    <section class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+      <form id="job-form" class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
+        <h2 class="mb-5 font-display text-2xl text-slate-900">New generation run</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="sm:col-span-2">Event or course title<input name="title" required value="Spring Leadership Intensive" class="field"></label>
+          <label>Issuer<input name="issuer" required value="Northstar Academy" class="field"></label>
+          <label>Issue date<input name="issue_date" type="date" required class="field"></label>
+        </div>
+        <div class="mt-6 flex items-center justify-between"><h3 class="font-semibold">Recipients</h3><button type="button" id="add-recipient" class="text-sm font-semibold text-orange-700">+ Add recipient</button></div>
+        <div id="recipients" class="mt-3 space-y-3"></div>
+        <button class="mt-6 w-full rounded-lg bg-slate-900 px-4 py-3 font-semibold text-white transition hover:bg-orange-700">Generate certificates</button>
+        <p id="form-message" class="mt-3 text-sm text-slate-500"></p>
+      </form>
+      <section class="rounded-xl bg-slate-900 p-6 text-stone-100 shadow-sm">
+        <div class="flex items-start justify-between"><div><p class="text-sm uppercase tracking-[0.2em] text-orange-300">Live status</p><h2 class="mt-1 font-display text-3xl">Generation runs</h2></div><span id="job-status" class="rounded-full bg-slate-700 px-3 py-1 text-xs">No active job</span></div>
+        <div id="job-summary" class="mt-8 grid grid-cols-3 gap-3"></div><div id="results" class="mt-6 space-y-2"></div>
+      </section>
+    </section>
+  </main>
+  <style>.field{display:block;width:100%;margin-top:.35rem;border:1px solid #d6d3d1;border-radius:.5rem;padding:.65rem;background:#fafaf9;outline:none}.field:focus{border-color:#c2410c;box-shadow:0 0 0 2px #fed7aa}</style>
+  <script src="/static/app.js"></script>
+</body>
+</html>
