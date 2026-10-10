@@ -32,12 +32,13 @@ def test_create_job_and_track_completion(client):
     assert response.status_code == 202
     job = response.json()
     assert job["total"] == 2
-    assert job["status"] == "completed"
-    assert job["succeeded"] == 2
 
     status = client.get(f"/api/jobs/{job['id']}")
     assert status.status_code == 200
-    assert {item["status"] for item in status.json()["certificates"]} == {"completed"}
+    status_data = status.json()
+    assert status_data["status"] == "completed"
+    assert status_data["succeeded"] == 2
+    assert {item["status"] for item in status_data["certificates"]} == {"completed"}
 
 
 def test_input_validation(client):
@@ -62,7 +63,7 @@ def test_individual_failure_does_not_stop_other_certificates(client, monkeypatch
 
     monkeypatch.setattr(jobs, "generate_certificate", fail_one)
     response = client.post("/api/jobs", json=payload())
-    job = response.json()
+    job = client.get(f"/api/jobs/{response.json()['id']}").json()
 
     assert job["status"] == "partial"
     assert job["succeeded"] == 1
@@ -74,7 +75,8 @@ def test_individual_failure_does_not_stop_other_certificates(client, monkeypatch
 
 def test_retrieve_generated_certificate(client):
     response = client.post("/api/jobs", json=payload())
-    certificate = response.json()["certificates"][0]
+    job = client.get(f"/api/jobs/{response.json()['id']}").json()
+    certificate = job["certificates"][0]
     download = client.get(certificate["download_url"])
 
     assert download.status_code == 200
